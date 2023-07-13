@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "botastico"
+version = "0.1.0"
+description = "Python SDK for using the botasti.co chat API"
+authors = ["Andres Kull", "Bartol Karuza"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langchain = "^0.0.231"
+asyncio = "^3.4.3"
+aiohttp = "^3.8.4"
+
+
+[tool.poetry.group.dev.dependencies]
+openai = "^0.27.8"
+flask = "^2.3.2"
+ipykernel = "^6.24.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
