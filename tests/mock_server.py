@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
+import time
 
 app = Flask(__name__)
 
@@ -10,15 +11,28 @@ def botastico_mock(agent_id):
     if data is None:
         return jsonify({'error': 'Invalid request. Expected JSON data.'}), 400
 
+    timestamp = int(time.mktime(datetime.now().timetuple()))
+
     response = {
-        "id": "mock_id",
-        "object": "mock_object",
-        "created_timestamp": datetime.now().isoformat(),
-        "model": "mock_model",
-        "usage": {},
-        "finish_reason": "mock_finish_reason",
-        "response_message": "Hello, I am the Botastico service!",
-        "received_timestamp": datetime.now().isoformat(),
+        "id": "chatcmpl-mockId",
+        "object": "chat.completion",
+        "created": timestamp,
+        "model": "gpt-4-0613",
+        "choices": [
+            {
+                "index": 0, 
+                "message": {
+                    "role": "assistant", 
+                    "content": "Hello, I am the Botastico service!"
+                }, 
+                "finish_reason": "stop"
+            }
+        ],
+        "usage": {
+            "prompt_tokens": 63,
+            "completion_tokens": 9,
+            "total_tokens": 72
+        }
     }
 
     return jsonify(response)

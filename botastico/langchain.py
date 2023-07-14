@@ -38,7 +38,7 @@ from langchain.utils import get_from_dict_or_env
 class ChatBotastico(BaseChatModel):
     """Wrapper around Botastico Chat service."""
 
-    base_url: str = Field(default="http://localhost:8000")
+    base_url: str = Field(default="https://botastico-api-production-3qrwuust2a-nw.a.run.app")
     botastico_api_key: str
     botastico_agent_id: str
     temperature: float = 0.7
@@ -103,7 +103,7 @@ class ChatBotastico(BaseChatModel):
 
         if response.status_code == 200:
             resp_json = response.json()
-            message = AIMessage(role="ai", content=resp_json["response_message"])
+            message = AIMessage(role="ai", content=resp_json["choices"][0]["message"]["content"])
             return ChatResult(generations=[ChatGeneration(message=message)])
         else:
             # Handle the error case here
@@ -132,7 +132,7 @@ class ChatBotastico(BaseChatModel):
                 response = await resp.json()
 
         # Extract and return the result
-        message = AIMessage(role="ai", content=response["response_message"])
+        message = AIMessage(role="ai", content=response["choices"][0]["message"]["content"])
         return ChatResult(generations=[ChatGeneration(message=message)])
 
     @property
