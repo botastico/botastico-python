@@ -95,7 +95,7 @@ class ChatBotastico(BaseChatModel):
         headers, params = self._prepare_request(messages, **kwargs)
 
         response = requests.post(
-            f"{self.base_url}/v1/agents/{self.botastico_agent_id}/interaction",
+            f"{self.base_url}/v1/agents/{self.botastico_agent_id}/interactions",
             headers=headers,
             data=json.dumps(params),
             timeout=self.request_timeout,
@@ -121,7 +121,7 @@ class ChatBotastico(BaseChatModel):
         # Use aiohttp to make the request
         async with ClientSession() as session:
             async with session.post(
-                f"{self.base_url}/v1/agents/{self.botastico_agent_id}/interaction",
+                f"{self.base_url}/v1/agents/{self.botastico_agent_id}/interactions",
                 json=params,
                 headers=headers,
             ) as resp:
