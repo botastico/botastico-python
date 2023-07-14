@@ -44,8 +44,4 @@ Remember to replace `'your_agent_id'` and `'your_api_key'` with your actual Bota
 
 Your feedback is highly appreciated. If you have any suggestions, questions, or bug reports, please feel free to submit an issue on our GitHub page.
 
-## Disclaimer
-
-This software is provided "as is", without warranty of any kind, express or implied. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from the use of the software. 
-
 Enjoy building amazing conversational experiences with Botastico!
