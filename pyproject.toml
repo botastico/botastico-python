@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "botastico"
-version = "0.1.3"
+version = "0.1.4"
 homepage = "https://github.com/botastico/botastico-python"
 description = "Python SDK for using the botasti.co chat API"
 authors = ["Andres Kull", "Bartol Karuza"]
@@ -11,6 +11,7 @@ python = "^3.11"
 langchain = "^0.0.231"
 asyncio = "^3.4.3"
 aiohttp = "^3.8.4"
+python-semantic-release = "^7.34.6"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -22,3 +23,12 @@ ipykernel = "^6.24.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable = [
+    "pyproject.toml:version"
+]
+branch = "main"
+upload_to_pypi = true
+upload_to_release = false
+build_command = "pip install poetry && poetry build"
