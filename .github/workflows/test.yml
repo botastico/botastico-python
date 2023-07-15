@@ -19,6 +19,14 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install
+    - name: Run Mock Server in Background
+      run: |
+          poetry run python tests/mock_server.py &
+          echo "Mock Server PID=$!" >> $GITHUB_ENV
     - name: Run tests with pytest
       run: |
         poetry run pytest tests/
+    - name: Cleanup Mock Server
+      run: |
+        kill $Mock_Server_PID
+      if: always()
