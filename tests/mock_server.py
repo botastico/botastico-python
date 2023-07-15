@@ -4,7 +4,7 @@ import time
 
 app = Flask(__name__)
 
-@app.route('/v1/agents/<agent_id>/interaction', methods=['POST'])
+@app.route('/v1/agents/<agent_id>/interactions', methods=['POST'])
 def botastico_mock(agent_id):
 
     data = request.get_json()
