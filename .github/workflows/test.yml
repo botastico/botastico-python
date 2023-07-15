@@ -30,4 +30,4 @@ jobs:
         run: |
           echo "Attempting to kill Mock Server at PID $Mock_Server_PID"
           kill $Mock_Server_PID || echo "Failed to kill Mock Server. It may have already exited."
-          if: always()
+        if: always()
