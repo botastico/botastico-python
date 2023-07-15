@@ -1,5 +1,7 @@
 # Botastico python SDK
 
+[![PyPI version](https://badge.fury.io/py/botastico.svg)](https://badge.fury.io/py/botastico)
+
 ## Introduction
 
 This is the official python SDK for Botastico, a sophisticated conversational AI service. The SDK enables developers to easily integrate Botastico's powerful conversational capabilities into their applications, products, or services.
