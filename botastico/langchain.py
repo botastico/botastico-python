@@ -38,7 +38,7 @@ from langchain.utils import get_from_dict_or_env
 class ChatBotastico(BaseChatModel):
     """Wrapper around Botastico Chat service."""
 
-    base_url: str = Field(default="https://botastico-api-production-3qrwuust2a-nw.a.run.app")
+    base_url: str = Field(default="https://api.botasti.co")
     botastico_api_key: str
     botastico_agent_id: str
     temperature: float = 0.7
