@@ -4,6 +4,7 @@ import mimetypes
 import logging
 import httpx
 import asyncio
+import shutil
 
 class Botastico:
     def __init__(self, api_key, base_url, agent_id):
@@ -50,7 +51,7 @@ class Botastico:
                 logging.error(f'Error occurred while uploading file: {file_name}. Error: {str(e)}')
                 return {'status_code': None, 'file_name': file_name, 'kbdoc_id': None, 'message': str(e)}
 
-    async def upload_folder(self, folder_path, max_concurrent_tasks=100):
+    async def upload_folder(self, folder_path, max_concurrent_tasks=6):
         if not os.path.exists(folder_path):
             logging.error(f'Folder path: {folder_path} does not exist.')
             return
@@ -80,6 +81,32 @@ class Botastico:
         for response in responses:
             if response is not None:
                 results.append(response) 
+        return results
+    
+    async def upload_filenames(self, folder_path, filenames, max_concurrent_tasks=6):
+        if not os.path.exists(folder_path):
+            logging.error(f'Folder path: {folder_path} does not exist.')
+            return
+
+        # Filter out the files that are not in the filenames list
+        filtered_files = []
+        for root, dirs, files in os.walk(folder_path):
+            for file in files:
+                if file in filenames:
+                    filtered_files.append(os.path.join(root, file))
+
+        # Create a temporary folder and copy the filtered files into it
+        temp_folder = os.path.join(folder_path, 'temp_upload')
+        os.makedirs(temp_folder, exist_ok=True)
+        for file_path in filtered_files:
+            shutil.copy(file_path, temp_folder)
+
+        # Upload the entire temp folder
+        results = await self.upload_folder(temp_folder, max_concurrent_tasks=max_concurrent_tasks)
+
+        # Clean up the temporary folder after uploading
+        shutil.rmtree(temp_folder)
+
         return results
 
     def count_uploadable_files(self, folder_path):
@@ -112,11 +139,29 @@ class Botastico:
 
         return uploadable_files_dict
 
+    # def extract_kbdoc_ids(self):
+    #     list_response = requests.get(f'{self.base_url}/v1/agents?agent_ids={self.agent_id}', headers=self.headers)
+    #     agent = list_response.json()
+    #     kbdoc_ids = [file['kbdoc_id'] for dictionary in agent for file in dictionary['files'] if 'kbdoc_id' in file]
+    #     return kbdoc_ids
+
+    # def extract_kbdoc_filenames(self):
+    #     list_response = requests.get(f'{self.base_url}/v1/agents?agent_ids={self.agent_id}', headers=self.headers)
+    #     agent = list_response.json()
+    #     filenames = [file['filename'] for dictionary in agent for file in dictionary['files'] if 'filename' in file]
+    #     return filenames
+
     def extract_kbdoc_ids(self):
-        list_response = requests.get(f'{self.base_url}/v1/agents?agent_ids={self.agent_id}', headers=self.headers)
+        list_response = requests.get(f'{self.base_url}/v1/agents/{self.agent_id}/kb', headers=self.headers)
         agent = list_response.json()
-        kbdoc_ids = [file['kbdoc_id'] for dictionary in agent for file in dictionary['files'] if 'kbdoc_id' in file]
+        kbdoc_ids = [kbdoc['kbdoc_id'] for kbdoc in agent]
         return kbdoc_ids
+
+    def extract_kbdoc_filenames(self):
+        list_response = requests.get(f'{self.base_url}/v1/agents/{self.agent_id}/kb', headers=self.headers)
+        agent = list_response.json()
+        filenames = [kbdoc['filename'] for kbdoc in agent]
+        return filenames
 
     async def delete_agent_kbdocs(self):
         kbdoc_ids = self.extract_kbdoc_ids()
