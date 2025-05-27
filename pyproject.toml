@@ -8,14 +8,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-langchain = "^0.0.231"
+langchain = "0.2.16"
 asyncio = "^3.4.3"
 aiohttp = "^3.8.4"
 python-semantic-release = "^7.34.6"
 
 
 [tool.poetry.group.dev.dependencies]
-openai = "^0.27.8"
+openai = "1.17.0"
 flask = "^2.3.2"
 ipykernel = "^6.24.0"
 pytest-asyncio = "^0.21.1"
