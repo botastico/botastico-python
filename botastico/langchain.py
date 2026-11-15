@@ -45,7 +45,7 @@ class ChatBotastico(BaseChatModel):
     max_response_tokens: int = 0
     context_ratio_limit: float = 0.7
     dfp: str = ""
-    model_name: str = "gpt-4"
+    model_name: str = "gpt-4o-mini"
     request_timeout: Optional[Union[float, Tuple[float, float]]] = 600
 
     class Config:

@@ -17,7 +17,7 @@ def botastico_mock(agent_id):
         "id": "chatcmpl-mockId",
         "object": "chat.completion",
         "created": timestamp,
-        "model": "gpt-4-0613",
+        "model": "gpt-4o",
         "choices": [
             {
                 "index": 0, 
